@@ -8,9 +8,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts()
 
   // Manually check if the pool is already deployed
-  const saddleBscUSDPool = await getOrNull("SaddleBscUSDPool")
+  const saddleBscUSDPool = await getOrNull("SaddleBscFraxBusd")
   if (saddleBscUSDPool) {
-    log(`reusing "SaddleBscUSDPool" at ${saddleBscUSDPool.address}`)
+    log(`reusing "SaddleBscFraxBusd" at ${saddleBscUSDPool.address}`)
   } else {
     // Constructor arguments
     const TOKEN_ADDRESSES = [
@@ -19,12 +19,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     ]
     const TOKEN_DECIMALS = [18, 18]
     const LP_TOKEN_NAME = "Saddle FRAX/BUSD"
-    const LP_TOKEN_SYMBOL = "saddleArbUSDv2"
+    const LP_TOKEN_SYMBOL = "saddleBscUSD"
     const INITIAL_A = 2500
     const SWAP_FEE = 4e6 // 4bps
     const ADMIN_FEE = 0
 
-    await deploy("SaddleBscUSDPool", {
+    await deploy("SaddleBscFraxBusd", {
       from: deployer,
       log: true,
       contract: "SwapFlashLoan",
@@ -36,7 +36,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     })
 
     await execute(
-      "SaddleBscUSDPool",
+      "SaddleBscFraxBusd",
       { from: deployer, log: true },
       "initialize",
       TOKEN_ADDRESSES,
@@ -52,23 +52,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     )
   }
 
-  const lpTokenAddress = (await read("SaddleBscUSDPool", "swapStorage"))
+  const lpTokenAddress = (await read("SaddleBscFraxBusd", "swapStorage"))
     .lpToken
   log(`Saddle BSC USD Pool LP Token at ${lpTokenAddress}`)
 
-  await save("SaddleBscUSDPoolLPToken", {
+  await save("SaddleBscFraxBusdLPToken", {
     abi: (await get("LPToken")).abi, // LPToken ABI
     address: lpTokenAddress,
   })
 
   // Save for later
   // await execute(
-  //   "SaddleBscUSDPool",
+  //   "SaddleBscFraxBusd",
   //   { from: deployer, log: true },
   //   "transferOwnership",
   //   BSC_MULTISIG_ADDRESS,
   // )
 }
 export default func
-func.tags = ["SaddleBscUSDPool"]
+func.tags = ["SaddleBscFraxBusd"]
 func.dependencies = ["SwapUtils", "SwapFlashLoan"]
