@@ -61,12 +61,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     address: lpTokenAddress,
   })
 
-  await execute(
-    "SaddleBscUSDPool",
-    { from: deployer, log: true },
-    "transferOwnership",
-    BSC_MULTISIG_ADDRESS,
-  )
+  // Save for later
+  // await execute(
+  //   "SaddleBscUSDPool",
+  //   { from: deployer, log: true },
+  //   "transferOwnership",
+  //   BSC_MULTISIG_ADDRESS,
+  // )
 }
 export default func
 func.tags = ["SaddleBscUSDPool"]
