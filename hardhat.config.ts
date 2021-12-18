@@ -25,26 +25,22 @@ let config: HardhatUserConfig = {
       gasPrice: 100 * 1000000000,
       deploy: ["./deploy/mainnet/"],
     },
-    ropsten: {
-      url: process.env.ALCHEMY_API_ROPSTEN,
-      gasPrice: ethers.utils.parseUnits("1.01", "gwei").toNumber(),
-      accounts: {
-        mnemonic: process.env.MNEMONIC_TEST_ACCOUNT,
-      },
-      deploy: ["./deploy/mainnet/"],
-    },
-    arbitrum_testnet: {
-      url: "https://rinkeby.arbitrum.io/rpc",
-      accounts: {
-        mnemonic: process.env.MNEMONIC_TEST_ACCOUNT,
-      },
-      deploy: ["./deploy/arbitrum/"],
-    },
     arbitrum_mainnet: {
       url: "https://arb1.arbitrum.io/rpc",
       gasPrice: ethers.utils.parseUnits("2", "gwei").toNumber(),
       deploy: ["./deploy/arbitrum/"],
     },
+    bsc: {
+			url: process.env.BSC_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.BSC_MNEMONIC_PHRASE
+			},
+			chainId: 56,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("10", "gwei").toNumber(), // 10 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/bsc/"],
+		},
   },
   paths: {
     sources: "./contracts",
@@ -58,10 +54,19 @@ let config: HardhatUserConfig = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 10000,
+            runs: 100000,
           },
         },
       },
+			{
+				version: "0.8.10",
+				settings: {
+					optimizer: {
+						enabled: true,
+						runs: 100000
+					}
+				  }
+			},
       {
         version: "0.5.16",
       },

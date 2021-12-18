@@ -37,7 +37,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# environment variables
+# dotenv environment variables file
+.env*
 .env
+.env.test
+.env.save
+..env.swp
 deployments/localhost/
 deployments/optimistic/
