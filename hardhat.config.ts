@@ -58,15 +58,6 @@ let config: HardhatUserConfig = {
           },
         },
       },
-			{
-				version: "0.8.10",
-				settings: {
-					optimizer: {
-						enabled: true,
-						runs: 100000
-					}
-				  }
-			},
       {
         version: "0.5.16",
       },
