@@ -14,8 +14,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   } else {
     // Constructor arguments
     const TOKEN_ADDRESSES = [
-      (await get("FRAX")).address,
-      (await get("BUSD")).address,
+      "0x90C97F71E18723b0Cf0dfa30ee176Ab653E89F40", // FRAX
+      "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", // BUSD
     ]
     const TOKEN_DECIMALS = [18, 18]
     const LP_TOKEN_NAME = "Saddle FRAX/BUSD"
@@ -70,4 +70,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 }
 export default func
 func.tags = ["SaddleBscUSDPool"]
-func.dependencies = ["SwapUtils", "SwapFlashLoan", "ArbUSDPoolV2Tokens"]
+func.dependencies = ["SwapUtils", "SwapFlashLoan"]
