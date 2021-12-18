@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "bsc",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -90,11 +90,15 @@ let config: HardhatUserConfig = {
     overwrite: false,
     runOnCompile: true,
   },
+  etherscan: {
+		apiKey: process.env.BSCSCAN_API_KEY // BSC
+		// apiKey: process.env.ETHERSCAN_API_KEY, // ETH Mainnet
+		// apiKey: process.env.FTMSCAN_API_KEY // Fantom
+		// apiKey: process.env.POLYGONSCAN_API_KEY // Polygon
+	},
 }
 
-if (process.env.ETHERSCAN_API) {
-  config = { ...config, etherscan: { apiKey: process.env.ETHERSCAN_API } }
-}
+
 
 if (process.env.ACCOUNT_PRIVATE_KEYS) {
   config.networks = {
