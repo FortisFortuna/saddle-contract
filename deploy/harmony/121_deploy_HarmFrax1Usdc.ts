@@ -7,23 +7,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts()
 
   // Manually check if the pool is already deployed
-  const saddleBobaUSDPool = await getOrNull("SaddleBobaFraxUsdc")
+  const saddleBobaUSDPool = await getOrNull("SaddleHarmFrax1USDC")
   if (saddleBobaUSDPool) {
-    log(`reusing "SaddleBobaFraxUsdc" at ${saddleBobaUSDPool.address}`)
+    log(`reusing "SaddleHarmFrax1USDC" at ${saddleBobaUSDPool.address}`)
   } else {
     // Constructor arguments
     const TOKEN_ADDRESSES = [
-      "0x7562F525106F5d54E891e005867Bf489B5988CD9", // FRAX
-      "0x66a2A913e447d6b4BF33EFbec43aAeF87890FBbc", // USDC
+      "0xFa7191D292d5633f702B0bd7E3E3BcCC0e633200", // FRAX
+      "0x985458e523db3d53125813ed68c274899e9dfab4", // 1USDC
     ]
     const TOKEN_DECIMALS = [18, 6]
-    const LP_TOKEN_NAME = "Saddle FRAX/USDC"
-    const LP_TOKEN_SYMBOL = "SaddleBobaFraxUsdc"
+    const LP_TOKEN_NAME = "Saddle FRAX/1USDC"
+    const LP_TOKEN_SYMBOL = "SaddleHarmFrax1USDC"
     const INITIAL_A = 2500
     const SWAP_FEE = 4e6 // 4bps
     const ADMIN_FEE = 0
 
-    await deploy("SaddleBobaFraxUsdc", {
+    await deploy("SaddleHarmFrax1USDC", {
       from: deployer,
       log: true,
       contract: "SwapFlashLoan",
@@ -35,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     })
 
     await execute(
-      "SaddleBobaFraxUsdc",
+      "SaddleHarmFrax1USDC",
       { from: deployer, log: true },
       "initialize",
       TOKEN_ADDRESSES,
@@ -51,23 +51,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     )
   }
 
-  const lpTokenAddress = (await read("SaddleBobaFraxUsdc", "swapStorage"))
+  const lpTokenAddress = (await read("SaddleHarmFrax1USDC", "swapStorage"))
     .lpToken
-  log(`Saddle BOBA USD Pool LP Token at ${lpTokenAddress}`)
+  log(`Saddle HARM USD Pool LP Token at ${lpTokenAddress}`)
 
-  await save("SaddleBobaFraxUsdcLPToken", {
+  await save("SaddleHarmFrax1USDCLPToken", {
     abi: (await get("LPToken")).abi, // LPToken ABI
     address: lpTokenAddress,
   })
 
   // Save for later
   // await execute(
-  //   "SaddleBobaFraxUsdc",
+  //   "SaddleHarmFrax1USDC",
   //   { from: deployer, log: true },
   //   "transferOwnership",
   //   BSC_MULTISIG_ADDRESS,
   // )
 }
 export default func
-func.tags = ["SaddleBobaFraxUsdc"]
+func.tags = ["SaddleHarmFrax1USDC"]
 func.dependencies = ["SwapUtils", "SwapFlashLoan"]
