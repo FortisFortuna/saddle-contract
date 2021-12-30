@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "harmony",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -30,6 +30,17 @@ let config: HardhatUserConfig = {
       gasPrice: ethers.utils.parseUnits("2", "gwei").toNumber(),
       deploy: ["./deploy/arbitrum/"],
     },
+    boba: {
+			url: process.env.BOBA_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.BOBA_MNEMONIC_PHRASE
+			},
+			chainId: 288,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("10", "gwei").toNumber(), // 10 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/boba/"],
+		},
     bsc: {
 			url: process.env.BSC_NETWORK_ENDPOINT,
 			accounts: {
@@ -40,6 +51,17 @@ let config: HardhatUserConfig = {
 			gasPrice: ethers.utils.parseUnits("10", "gwei").toNumber(), // 10 Gwei
 			gasMultiplier: 1.2,
       deploy: ["./deploy/bsc/"],
+		},
+    harmony: {
+			url: process.env.HARMONY_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.HARMONY_MNEMONIC_PHRASE
+			},
+			chainId: 1666600000,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("10", "gwei").toNumber(), // 10 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/harmony/"],
 		},
   },
   paths: {
@@ -58,15 +80,6 @@ let config: HardhatUserConfig = {
           },
         },
       },
-			{
-				version: "0.8.10",
-				settings: {
-					optimizer: {
-						enabled: true,
-						runs: 100000
-					}
-				  }
-			},
       {
         version: "0.5.16",
       },
@@ -99,11 +112,15 @@ let config: HardhatUserConfig = {
     overwrite: false,
     runOnCompile: true,
   },
+  etherscan: {
+		apiKey: process.env.BSCSCAN_API_KEY // BSC
+		// apiKey: process.env.ETHERSCAN_API_KEY, // ETH Mainnet
+		// apiKey: process.env.FTMSCAN_API_KEY // Fantom
+		// apiKey: process.env.POLYGONSCAN_API_KEY // Polygon
+	},
 }
 
-if (process.env.ETHERSCAN_API) {
-  config = { ...config, etherscan: { apiKey: process.env.ETHERSCAN_API } }
-}
+
 
 if (process.env.ACCOUNT_PRIVATE_KEYS) {
   config.networks = {

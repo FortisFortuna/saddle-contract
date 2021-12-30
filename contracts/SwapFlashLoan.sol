@@ -101,44 +101,46 @@ contract SwapFlashLoan is Swap {
         uint256 amount,
         bytes memory params
     ) external nonReentrant {
-        uint8 tokenIndex = getTokenIndex(address(token));
-        uint256 availableLiquidityBefore = token.balanceOf(address(this));
-        uint256 protocolBalanceBefore = availableLiquidityBefore.sub(
-            swapStorage.balances[tokenIndex]
-        );
-        require(
-            amount > 0 && availableLiquidityBefore >= amount,
-            "invalid amount"
-        );
+        revert("Flashloans disabled");
 
-        // Calculate the additional amount of tokens the pool should end up with
-        uint256 amountFee = amount.mul(flashLoanFeeBPS).div(10000);
-        // Calculate the portion of the fee that will go to the protocol
-        uint256 protocolFee = amountFee.mul(protocolFeeShareBPS).div(10000);
-        require(amountFee > 0, "amount is small for a flashLoan");
+        // uint8 tokenIndex = getTokenIndex(address(token));
+        // uint256 availableLiquidityBefore = token.balanceOf(address(this));
+        // uint256 protocolBalanceBefore = availableLiquidityBefore.sub(
+        //     swapStorage.balances[tokenIndex]
+        // );
+        // require(
+        //     amount > 0 && availableLiquidityBefore >= amount,
+        //     "invalid amount"
+        // );
 
-        // Transfer the requested amount of tokens
-        token.safeTransfer(receiver, amount);
+        // // Calculate the additional amount of tokens the pool should end up with
+        // uint256 amountFee = amount.mul(flashLoanFeeBPS).div(10000);
+        // // Calculate the portion of the fee that will go to the protocol
+        // uint256 protocolFee = amountFee.mul(protocolFeeShareBPS).div(10000);
+        // require(amountFee > 0, "amount is small for a flashLoan");
 
-        // Execute callback function on receiver
-        IFlashLoanReceiver(receiver).executeOperation(
-            address(this),
-            address(token),
-            amount,
-            amountFee,
-            params
-        );
+        // // Transfer the requested amount of tokens
+        // token.safeTransfer(receiver, amount);
 
-        uint256 availableLiquidityAfter = token.balanceOf(address(this));
-        require(
-            availableLiquidityAfter >= availableLiquidityBefore.add(amountFee),
-            "flashLoan fee is not met"
-        );
+        // // Execute callback function on receiver
+        // IFlashLoanReceiver(receiver).executeOperation(
+        //     address(this),
+        //     address(token),
+        //     amount,
+        //     amountFee,
+        //     params
+        // );
 
-        swapStorage.balances[tokenIndex] = availableLiquidityAfter
-            .sub(protocolBalanceBefore)
-            .sub(protocolFee);
-        emit FlashLoan(receiver, tokenIndex, amount, amountFee, protocolFee);
+        // uint256 availableLiquidityAfter = token.balanceOf(address(this));
+        // require(
+        //     availableLiquidityAfter >= availableLiquidityBefore.add(amountFee),
+        //     "flashLoan fee is not met"
+        // );
+
+        // swapStorage.balances[tokenIndex] = availableLiquidityAfter
+        //     .sub(protocolBalanceBefore)
+        //     .sub(protocolFee);
+        // emit FlashLoan(receiver, tokenIndex, amount, amountFee, protocolFee);
     }
 
     /*** ADMIN FUNCTIONS ***/
@@ -152,13 +154,14 @@ contract SwapFlashLoan is Swap {
         uint256 newFlashLoanFeeBPS,
         uint256 newProtocolFeeShareBPS
     ) external onlyOwner {
-        require(
-            newFlashLoanFeeBPS > 0 &&
-                newFlashLoanFeeBPS <= MAX_BPS &&
-                newProtocolFeeShareBPS <= MAX_BPS,
-            "fees are not in valid range"
-        );
-        flashLoanFeeBPS = newFlashLoanFeeBPS;
-        protocolFeeShareBPS = newProtocolFeeShareBPS;
+        revert("Flashloans disabled");
+        // require(
+        //     newFlashLoanFeeBPS > 0 &&
+        //         newFlashLoanFeeBPS <= MAX_BPS &&
+        //         newProtocolFeeShareBPS <= MAX_BPS,
+        //     "fees are not in valid range"
+        // );
+        // flashLoanFeeBPS = newFlashLoanFeeBPS;
+        // protocolFeeShareBPS = newProtocolFeeShareBPS;
     }
 }
