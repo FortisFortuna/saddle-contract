@@ -7,23 +7,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts()
 
   // Manually check if the pool is already deployed
-  const saddleHarmUSDPool = await getOrNull("SaddleHarmFrax1USDC")
-  if (saddleHarmUSDPool) {
-    log(`reusing "SaddleHarmFrax1USDC" at ${saddleHarmUSDPool.address}`)
+  const saddleMoonUSDPool = await getOrNull("SaddleMoonFraxUsdc")
+  if (saddleMoonUSDPool) {
+    log(`reusing "SaddleMoonFraxUsdc" at ${saddleMoonUSDPool.address}`)
   } else {
     // Constructor arguments
     const TOKEN_ADDRESSES = [
-      "0xFa7191D292d5633f702B0bd7E3E3BcCC0e633200", // FRAX
-      "0x985458e523db3d53125813ed68c274899e9dfab4", // 1USDC
+      "0x1A93B23281CC1CDE4C4741353F3064709A16197d", // FRAX
+      "0xE3F5a90F9cb311505cd691a46596599aA1A0AD7D", // USDC
     ]
     const TOKEN_DECIMALS = [18, 6]
-    const LP_TOKEN_NAME = "Saddle FRAX/1USDC"
-    const LP_TOKEN_SYMBOL = "SaddleHarmFrax1USDC"
+    const LP_TOKEN_NAME = "Saddle FRAX/USDC"
+    const LP_TOKEN_SYMBOL = "SaddleMoonFraxUsdc"
     const INITIAL_A = 2500
     const SWAP_FEE = 4e6 // 4bps
     const ADMIN_FEE = 0
 
-    await deploy("SaddleHarmFrax1USDC", {
+    await deploy("SaddleMoonFraxUsdc", {
       from: deployer,
       log: true,
       contract: "SwapFlashLoan",
@@ -35,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     })
 
     await execute(
-      "SaddleHarmFrax1USDC",
+      "SaddleMoonFraxUsdc",
       { from: deployer, log: true },
       "initialize",
       TOKEN_ADDRESSES,
@@ -51,16 +51,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     )
   }
 
-  const lpTokenAddress = (await read("SaddleHarmFrax1USDC", "swapStorage"))
+  const lpTokenAddress = (await read("SaddleMoonFraxUsdc", "swapStorage"))
     .lpToken
-  log(`Saddle HARM USD Pool LP Token at ${lpTokenAddress}`)
+  log(`Saddle MOON USD Pool LP Token at ${lpTokenAddress}`)
 
-  await save("SaddleHarmFrax1USDCLPToken", {
+  await save("SaddleMoonFraxUsdcLPToken", {
     abi: (await get("LPToken")).abi, // LPToken ABI
     address: lpTokenAddress,
   })
-
 }
 export default func
-func.tags = ["SaddleHarmFrax1USDC"]
+func.tags = ["SaddleMoonFraxUsdc"]
 func.dependencies = ["SwapUtils", "SwapFlashLoan"]

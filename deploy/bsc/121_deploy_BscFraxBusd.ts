@@ -59,14 +59,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     abi: (await get("LPToken")).abi, // LPToken ABI
     address: lpTokenAddress,
   })
-
-  // Save for later
-  // await execute(
-  //   "SaddleBscFraxBusd",
-  //   { from: deployer, log: true },
-  //   "transferOwnership",
-  //   BSC_MULTISIG_ADDRESS,
-  // )
 }
 export default func
 func.tags = ["SaddleBscFraxBusd"]
