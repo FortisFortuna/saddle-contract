@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "harmony",
+  defaultNetwork: "moonriver",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -62,6 +62,17 @@ let config: HardhatUserConfig = {
 			gasPrice: ethers.utils.parseUnits("10", "gwei").toNumber(), // 10 Gwei
 			gasMultiplier: 1.2,
       deploy: ["./deploy/harmony/"],
+		},
+    moonriver: {
+			url: process.env.MOONRIVER_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.MOONRIVER_MNEMONIC_PHRASE
+			},
+			chainId: 1285,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("3", "gwei").toNumber(), // 3 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/moonriver/"],
 		},
   },
   paths: {
@@ -113,9 +124,10 @@ let config: HardhatUserConfig = {
     runOnCompile: true,
   },
   etherscan: {
-		apiKey: process.env.BSCSCAN_API_KEY // BSC
+		// apiKey: process.env.BSCSCAN_API_KEY // BSC
 		// apiKey: process.env.ETHERSCAN_API_KEY, // ETH Mainnet
 		// apiKey: process.env.FTMSCAN_API_KEY // Fantom
+    apiKey: process.env.MOONRIVER_API_KEY // Moonriver
 		// apiKey: process.env.POLYGONSCAN_API_KEY // Polygon
 	},
 }
