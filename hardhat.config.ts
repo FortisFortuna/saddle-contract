@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "moonriver",
+  defaultNetwork: "boba",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -83,6 +83,9 @@ let config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
+        version: "0.5.16",
+      },
+      {
         version: "0.6.12",
         settings: {
           optimizer: {
@@ -92,7 +95,13 @@ let config: HardhatUserConfig = {
         },
       },
       {
-        version: "0.5.16",
+        version: "0.8.10",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 100000,
+          },
+        },
       },
     ],
   },
