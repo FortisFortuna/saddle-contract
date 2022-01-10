@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "boba",
+  defaultNetwork: "optimism",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -73,6 +73,17 @@ let config: HardhatUserConfig = {
 			gasPrice: ethers.utils.parseUnits("3", "gwei").toNumber(), // 3 Gwei
 			gasMultiplier: 1.2,
       deploy: ["./deploy/moonriver/"],
+		},
+    optimism: {
+			url: process.env.OPTIMISM_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.OPTIMISM_MNEMONIC_PHRASE
+			},
+			chainId: 10,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("1", "gwei").toNumber(), // 1 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/optimism/"],
 		},
   },
   paths: {
