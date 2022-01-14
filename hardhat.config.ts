@@ -63,6 +63,17 @@ let config: HardhatUserConfig = {
 			gasMultiplier: 1.2,
       deploy: ["./deploy/harmony/"],
 		},
+    moonbeam: {
+			url: process.env.MOONBEAM_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.MOONBEAM_MNEMONIC_PHRASE
+			},
+			chainId: 1284,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("101", "gwei").toNumber(), // 101 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/moonbeam/"],
+		},
     moonriver: {
 			url: process.env.MOONRIVER_NETWORK_ENDPOINT,
 			accounts: {
@@ -147,7 +158,8 @@ let config: HardhatUserConfig = {
 		// apiKey: process.env.BSCSCAN_API_KEY // BSC
 		// apiKey: process.env.ETHERSCAN_API_KEY, // ETH Mainnet
 		// apiKey: process.env.FTMSCAN_API_KEY // Fantom
-    apiKey: process.env.MOONRIVER_API_KEY // Moonriver
+    // apiKey: process.env.MOONRIVER_API_KEY // Moonriver
+    apiKey: process.env.OPTIMISM_API_KEY // Optimism
 		// apiKey: process.env.POLYGONSCAN_API_KEY // Polygon
 	},
 }
