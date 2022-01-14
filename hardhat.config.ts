@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "optimism",
+  defaultNetwork: "moonbeam",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -70,7 +70,7 @@ let config: HardhatUserConfig = {
 			},
 			chainId: 1284,
 			gas: "auto",
-			gasPrice: ethers.utils.parseUnits("101", "gwei").toNumber(), // 101 Gwei
+			gasPrice: ethers.utils.parseUnits("150", "gwei").toNumber(), // 101 Gwei
 			gasMultiplier: 1.2,
       deploy: ["./deploy/moonbeam/"],
 		},
