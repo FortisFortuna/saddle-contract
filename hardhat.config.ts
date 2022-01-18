@@ -158,8 +158,9 @@ let config: HardhatUserConfig = {
 		// apiKey: process.env.BSCSCAN_API_KEY // BSC
 		// apiKey: process.env.ETHERSCAN_API_KEY, // ETH Mainnet
 		// apiKey: process.env.FTMSCAN_API_KEY // Fantom
+    apiKey: process.env.MOONBEAM_API_KEY // Moonbeam
     // apiKey: process.env.MOONRIVER_API_KEY // Moonriver
-    apiKey: process.env.OPTIMISM_API_KEY // Optimism
+    // apiKey: process.env.OPTIMISM_API_KEY // Optimism
 		// apiKey: process.env.POLYGONSCAN_API_KEY // Polygon
 	},
 }
