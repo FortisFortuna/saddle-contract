@@ -15,7 +15,7 @@ import { ethers } from "ethers"
 dotenv.config()
 
 let config: HardhatUserConfig = {
-  defaultNetwork: "moonbeam",
+  defaultNetwork: "aurora",
   networks: {
     hardhat: {
       deploy: ["./deploy/mainnet/"],
@@ -30,6 +30,17 @@ let config: HardhatUserConfig = {
       gasPrice: ethers.utils.parseUnits("2", "gwei").toNumber(),
       deploy: ["./deploy/arbitrum/"],
     },
+    aurora: {
+			url: process.env.AURORA_NETWORK_ENDPOINT,
+			accounts: {
+				mnemonic: process.env.AURORA_MNEMONIC_PHRASE
+			},
+			chainId: 1313161554,
+			gas: "auto",
+			gasPrice: ethers.utils.parseUnits("4", "gwei").toNumber(), // 4 Gwei
+			gasMultiplier: 1.2,
+      deploy: ["./deploy/aurora/"],
+		},
     boba: {
 			url: process.env.BOBA_NETWORK_ENDPOINT,
 			accounts: {
