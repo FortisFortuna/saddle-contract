@@ -11,7 +11,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   if (ccBridgeBacker_EVMOS_Nomad) {
     log(`reusing "ccBridgeBacker_EVMOS_Nomad" at ${ccBridgeBacker_EVMOS_Nomad.address}`)
   } else {
-    await deploy("ccBridgeBacker_EVMOS_Nomad", {
+    await deploy("CrossChainBridgeBacker_EVMOS_Nomad", {
       from: libraryDeployer,
       log: true,
       args: [
